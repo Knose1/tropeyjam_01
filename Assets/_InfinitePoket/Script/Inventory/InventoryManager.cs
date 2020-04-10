@@ -28,7 +28,10 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 				Debug.LogWarning("The id of the item is different than the Stack's item id");
 				return false;
 			}
-			if (count == MAX_STACK)
+
+			int lMaxStack = this.item.HasSpecificData ? 1 : MAX_STACK;
+
+			if (count >= lMaxStack)
 			{
 				return false;
 			}
@@ -55,15 +58,36 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 
 	public enum ItemId 
 	{
-		Abstract = 0
+		Abstract = 0,
+		Map = 1
 	}
 
 	public class InventoryManager : MonoBehaviour {
-		
-		
 
-		private void Start () {
-			
+		public List<List<InventoryStack>> inventoryByPoket;
+
+		private void Start () 
+		{
+			OnEnable();
 		}
+
+		private void OnEnable()
+		{
+			Item.OnCollect += Item_OnCollect;
+		}
+
+		private void Item_OnCollect(Item obj) => throw new NotImplementedException();
+
+		private void OnDisable()
+		{
+			Item.OnCollect += Item_OnCollect;
+		}
+
+		private void OnDestroy()
+		{
+			OnDisable();
+		}
+
+		private void SetpoketId()
 	}
 }

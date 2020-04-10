@@ -8,6 +8,10 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 {
 	public class Map : Item
 	{
-
+		public Map() : base()
+		{
+			Id = ItemId.Map;
+			HasSpecificData = true;
+		}
 	}
 }
