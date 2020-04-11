@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.Github.Knose1.InfinitePoket.Inventory
+namespace Com.Github.Knose1.InfinitePocket.Inventory
 {
 	public abstract class Item {
+
+		private List<Item> _list = new List<Item>();
+		public List<Item> List => _list;
 
 		public static event Action<Item> OnCollect;
 
@@ -28,7 +32,11 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 		
 		private bool _hasSpecificData;
 
-		protected Item() {}
+		protected Item() 
+		{
+			AddToList();
+		}
+		protected void AddToList() => _list.Add(this);
 
 		public bool HasSpecificData
 		{
@@ -52,6 +60,9 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 			_isCollected = true;
 			OnCollect?.Invoke(this);
 		}
+
+		//Useless
+		/*
 		public void Drop()
 		{
 			if (!_dropable) return;
@@ -64,6 +75,7 @@ namespace Com.Github.Knose1.InfinitePoket.Inventory
 			_isCollected = false;
 			gameObject.SetActive(false);
 		}
-		public bool IsTheSameOf(Item item) => item._id == _id;
+		*/
+		virtual public bool IsTheSameOf(Item item) => item._id == _id;
 	}
 }

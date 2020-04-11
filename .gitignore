@@ -338,8 +338,10 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
 /Assets/PolygonPrototype
 /Temp
 /Library
 *.csproj
 *.sln
+/Assets/SkySerie Freebie
