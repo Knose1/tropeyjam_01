@@ -1,10 +1,13 @@
 ﻿using Com.Github.Knose1.InfinitePocket.Game.Object;
+using System;
 using UnityEngine;
 
 namespace Com.Github.Knose1.InfinitePocket.Game
 {
 	[AddComponentMenu("_InfinitePocket/Game/" + nameof(GameManager))]
 	public class GameManager : MonoBehaviour {
+
+		public event Action OnLevelSet;
 
 		private static GameManager _instance;
 		public static GameManager Instance
@@ -35,18 +38,36 @@ namespace Com.Github.Knose1.InfinitePocket.Game
 			if (!player)
 			{
 				Debug.LogError(nameof(player) + " is not assigned");
+				return;
 			}
 			
 			if (player.transform.position.y < minYPlayerDeadzone)
 			{
-				player.GetComponent<Rigidbody>().velocity = Vector3.zero;
-				player.transform.position = currentLevel.StartPosition;
+				SetPlayerToStartPosition();
 			}	
+		}
+
+		private void SetPlayerToStartPosition()
+		{
+			if (!player)
+			{
+				Debug.LogError(nameof(player) + " is not assigned");
+				return;
+			}
+
+			player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			player.transform.position = currentLevel.StartPosition;
 		}
 
 		public void SetLevel(Level level)
 		{
+			if (currentLevel) currentLevel.gameObject.SetActive(false);
+			
+			currentLevel = level;
+			currentLevel.gameObject.SetActive(true);
 
+			SetPlayerToStartPosition();
+			OnLevelSet?.Invoke();
 		}
 	}
 }

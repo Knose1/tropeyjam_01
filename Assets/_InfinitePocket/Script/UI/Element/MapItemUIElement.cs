@@ -15,7 +15,7 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element
 		public override void Click(PointerEventData eventData)
 		{
 			int pocketId = (stack.Item as ItemMap).pocketId;
-			InventoryManager.Instance.RemoveItem(stack.Item);
+			if (pocketId == -1) InventoryManager.Instance.RemoveItem(stack.Item);
 
 			PocketManager.Instance.LoadDeeperPocket(pocketId);
 		}

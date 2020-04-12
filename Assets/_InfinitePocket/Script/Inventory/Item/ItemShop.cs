@@ -20,10 +20,7 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 
 		public override string Description => string.Format(base.Description, _quantityToGive+" "+_itemToGive.Name, Cost + " " + _monney.Name);
 
-		public ItemShop() : base()
-		{
-			Id = ItemId.Pocket;
-			HasSpecificData = true;
-		}
+		public override ItemId Id => ItemId.Shop;
+		public override bool CanStack => false;
 	}
 }

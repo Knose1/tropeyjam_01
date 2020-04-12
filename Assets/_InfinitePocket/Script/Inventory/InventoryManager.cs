@@ -1,4 +1,5 @@
-﻿using Com.Github.Knose1.InfinitePocket.Game.Pockets;
+﻿using Com.Github.Knose1.InfinitePocket.Game;
+using Com.Github.Knose1.InfinitePocket.Game.Pockets;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,12 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		{
 			Item.OnCollect += Item_OnCollect;
 			PocketManager.Instance.OnCreatePocket += PocketManager_OnCreatePocket;
+			GameManager.Instance.OnLevelSet += GameManager_OnLevelSet;
+		}
+
+		private void GameManager_OnLevelSet()
+		{
+			OnInventoryUpdate?.Invoke();
 		}
 
 		private void PocketManager_OnCreatePocket(Pocket current, Pocket old)
@@ -138,6 +145,8 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		private void OnDisable()
 		{
 			Item.OnCollect -= Item_OnCollect;
+			PocketManager.Instance.OnCreatePocket -= PocketManager_OnCreatePocket;
+			GameManager.Instance.OnLevelSet -= GameManager_OnLevelSet;
 		}
 
 		private void OnDestroy()
@@ -172,7 +181,7 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				return false;
 			}
 
-			int lMaxStack = this.Item.HasSpecificData ? 1 : MAX_STACK;
+			int lMaxStack = Item.CanStack ? MAX_STACK : 1;
 
 			if (count >= lMaxStack)
 			{
@@ -205,6 +214,9 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 	{
 		Abstract = 0,
 		Pocket = 1,
-		Mana = 2
+		Mana = 2,
+		Map = 3,
+		PocketParent = 4,
+		Shop = 5
 	}
 }

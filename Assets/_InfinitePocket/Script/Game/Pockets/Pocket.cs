@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 {
+	[Serializable]
 	public class Pocket : IDisposable
 	{
 		private static int _NextPocketId = 0;
 
 		private bool isDestroyed = false;
 
-		public List<InventoryStack> inventory;
+		public List<InventoryStack> inventory = new List<InventoryStack>();
 		public int id;
 		public int parentCount;
 		public Level level;
 		public Pocket parent;
-		public List<Pocket> childs;
+		public List<Pocket> childs = new List<Pocket>();
 
 		public Pocket(Level level, int parentCount = 0, Pocket parent = null)
 		{
-			this.inventory = new List<InventoryStack>();
 			this.id = _NextPocketId++;
 			this.parentCount = parentCount;
 			this.level = level;
@@ -29,9 +29,9 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 
 		public void Dispose()
 		{
-			Debug.Log("[Dispose] Pocket with id \""+id+"\" disposed");
+			Debug.Log("[POCKET] Pocket with id \""+id+"\" disposed");
 			isDestroyed = true;
-			UnityEngine.Object.Destroy(level);
+			UnityEngine.Object.Destroy(level.gameObject);
 		}
 
 		public void DisposeWithChilds(Pocket exceptionPocket = null)

@@ -16,7 +16,19 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Object
 		private void OnTriggerEnter(Collider other)
 		{
 			rb.isKinematic = false;
-			toUnparent.SetParent(null, true);
+
+			Transform gm = null;
+			try
+			{
+				gm = GetComponentInParent<Level>().transform;
+			}
+			catch (System.Exception)
+			{
+				Debug.LogError("There is no Level componnent on the level");
+			}
+
+			toUnparent.SetParent(gm, true);
+
 			Destroy(gameObject);
 		}
 	}

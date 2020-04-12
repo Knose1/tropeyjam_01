@@ -18,25 +18,8 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 
 		public static event Action<Item> OnCollect;
 
-		private bool _dropable = false;
-		public bool Dropable
-		{
-			get => _dropable;
-			protected set => _dropable = value;
-		}
-
-		private ItemId _id = ItemId.Abstract;
-		public ItemId Id { 
-			get => _id; 
-			protected set => _id = value;
-		}
-
-		private bool _hasSpecificData;
-		public bool HasSpecificData
-		{
-			get => _hasSpecificData;
-			protected set => _hasSpecificData = value;
-		}
+		abstract public ItemId Id { get; }
+		abstract public bool CanStack { get; }
 
 		public void Collect() 
 		{
@@ -44,6 +27,6 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			OnCollect?.Invoke(this);
 		}
 
-		virtual public bool IsTheSameOf(Item item) => item._id == _id;
+		virtual public bool IsTheSameOf(Item item) => item.Id == Id;
 	}
 }

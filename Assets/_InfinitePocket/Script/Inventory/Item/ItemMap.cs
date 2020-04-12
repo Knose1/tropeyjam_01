@@ -11,15 +11,12 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 	[CreateAssetMenu(fileName = nameof(ItemMap), menuName = "InfinitePocket/" + nameof(ItemMap))]
 	public class ItemMap : Item
 	{
-		public ItemMap() : base()
-		{
-			Id = ItemId.Pocket;
-			HasSpecificData = true;
-		}
-
 		public override bool IsTheSameOf(Item item) => base.IsTheSameOf(item) && item is ItemMap && pocketId == (item as ItemMap).pocketId;
 
 		public const int GENERATE_NEW = -1;
 		public int pocketId = GENERATE_NEW;
+
+		public override ItemId Id => ItemId.Map;
+		public override bool CanStack => pocketId == GENERATE_NEW;
 	}
 }

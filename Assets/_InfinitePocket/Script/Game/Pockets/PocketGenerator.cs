@@ -46,8 +46,11 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 			Level lToReturn = randomLevels[0];
 			randomLevels.RemoveAt(0);
 
+			lastGenerated = lToReturn;
+			lToReturn = Instantiate(lastGenerated);
+			lToReturn.gameObject.SetActive(false);
 
-			return lastGenerated = lToReturn;
+			return lToReturn;
 		}
 
 		private void OnValidate()

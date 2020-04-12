@@ -25,7 +25,11 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element
 		public void LinkItem(InventoryStack stack)
 		{
 			this.stack = stack;
-			if (!stack.Item.HasSpecificData) SetCount(stack.count);
+			if (stack.Item.CanStack)
+			{
+				stackCountObject.gameObject.SetActive(true);
+				SetCount(stack.count);
+			}
 			else
 			{
 				stackCountObject.gameObject.SetActive(false);
@@ -42,6 +46,7 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element
 		public void OnPointerClick(PointerEventData eventData)
 		{
 			Debug.Log($"[Use] Clicked on {gameObject.name} of type {GetType().Name}");
+			Click(eventData);
 		}
 		public abstract void Click(PointerEventData eventData);
 	}
