@@ -38,8 +38,8 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Object
 
 		private void Rotate()
 		{
-			xRotation += Input.GetAxis(MouseX) * headSpeed * Time.deltaTime;
-			yRotation += -Input.GetAxis(MouseY) * headSpeed * Time.deltaTime;
+			xRotation += Input.GetAxis(MouseX) * headSpeed;
+			yRotation += -Input.GetAxis(MouseY) * headSpeed;
 
 			xRotation = xRotation % 360;
 			yRotation = yRotation % 360;

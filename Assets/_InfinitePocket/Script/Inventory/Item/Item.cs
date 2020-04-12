@@ -11,7 +11,7 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		public string Name => _name;
 
 		[SerializeField, TextArea()] protected string _description;
-		public string Description => _description;
+		virtual public string Description => _description;
 
 		[SerializeField] protected UIInventoryElement _uiInventoryPrefab = null;
 		public UIInventoryElement UiInventoryPrefab => _uiInventoryPrefab;

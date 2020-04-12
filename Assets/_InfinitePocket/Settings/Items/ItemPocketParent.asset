@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a37ce21b8252fe4d8a21de6b8a3a892, type: 3}
+  m_Name: ItemPocketParent
+  m_EditorClassIdentifier: Assembly-CSharp:Com.Github.Knose1.InfinitePocket.Inventory:ItemParent
+  _name: Pocket Parent
+  _description: Return to the parent pocket up to 3 parent. What if you go up to 4
+    parents ? *thinking*
+  _uiInventoryPrefab: {fileID: 4266749877109742529, guid: 988c8e9f6ec9eb44ea4d16e7e61afdca,
+    type: 3}

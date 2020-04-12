@@ -30,7 +30,6 @@ namespace Com.Github.Knose1.InfinitePocket.UI {
 		private void OnDisable()
 		{
 			InventoryManager.OnInventoryUpdate -= InventoryManager_OnInventoryUpdate;
-			UpdateInventory();
 		}
 		private void OnDestroy()
 		{
@@ -63,9 +62,9 @@ namespace Com.Github.Knose1.InfinitePocket.UI {
 				if (!currentLine.CanAddItem())
 				{
 					//Return if no more line
-					if (currentLineId == lines.Count) break;
+					if (++currentLineId == lines.Count) break;
 
-					currentLine = lines[++currentLineId];
+					currentLine = lines[currentLineId];
 				}
 
 				//Create new Inventory element

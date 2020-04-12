@@ -31,16 +31,40 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			}
 		}
 
+		[SerializeField] ItemMap prefabItemPocket  = null;
+		[SerializeField] ItemParent backwardArrow = null;
+		[SerializeField] List<ItemShop> shops = null;
+
 		private void OnEnable()
 		{
 			Item.OnCollect += Item_OnCollect;
+			PocketManager.Instance.OnCreatePocket += PocketManager_OnCreatePocket;
+		}
+
+		private void PocketManager_OnCreatePocket(Pocket current, Pocket old)
+		{
+			if (old)
+			{
+				ItemMap pocketItem = Instantiate(prefabItemPocket);
+				pocketItem.pocketId = current.id;
+				old.inventory.Add(new InventoryStack(pocketItem));
+			}
+
+			AddItem(backwardArrow, false);
+
+			int maxIndex = shops.Count - 1;
+			for (int i = 0; i <= maxIndex; i++)
+			{
+				AddItem(shops[i], i == maxIndex);
+			}
+
 		}
 
 		private void Item_OnCollect(Item obj) 
 		{
-			CollectItem(obj);
+			AddItem(obj);
 		}
-		public void CollectItem(Item obj)
+		public void AddItem(Item obj, bool callEvent = true)
 		{
 			List<InventoryStack> inventory = CurrentInventory;
 
@@ -51,15 +75,18 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				if (!stack.IsTheSameOf(obj)) continue;
 				if (!stack.Add(obj)) continue;
 
-				OnInventoryUpdate?.Invoke();
+				Debug.Log("[Inventory] Added " + obj.Name);
+				if (callEvent) OnInventoryUpdate?.Invoke();
 				return;
 			}
 
+			Debug.Log("[Inventory] Create a stack for " + obj.Name);
 			inventory.Add(new InventoryStack(obj));
 
-			OnInventoryUpdate?.Invoke();
+
+			if (callEvent) OnInventoryUpdate?.Invoke();
 		}
-		public void RemoveItem(Item obj, int count=1)
+		public void RemoveItem(Item obj, int count=1, bool callEvent = true)
 		{
 			List<InventoryStack> inventory = PocketManager.Instance.CurrentPocket.inventory;
 
@@ -68,12 +95,42 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			{
 				stack = inventory[i];
 				if (!stack.IsTheSameOf(obj)) continue;
-				if (!stack.Remove(obj, count)) continue;
 
-				OnInventoryUpdate?.Invoke();
+				int removed = stack.Remove(obj, count);
+				
+				if (stack.count == 0)
+				{
+					inventory.Remove(stack);
+				}
+
+				if (removed != count)
+				{
+					count -= removed;
+					continue;
+				}
+
+				if (callEvent) OnInventoryUpdate?.Invoke();
 				return;
 			}
 
+		}
+		public int Count(Item itemToCount)
+		{
+			List<InventoryStack> inventory = PocketManager.Instance.CurrentPocket.inventory;
+
+			InventoryStack stack;
+
+			int toReturn = 0;
+			
+			for (int i = inventory.Count - 1; i >= 0; i--)
+			{
+				stack = inventory[i];
+				if (!stack.IsTheSameOf(itemToCount)) continue;
+				
+				toReturn += stack.count;
+			}
+
+			return toReturn;
 		}
 
 		public List<InventoryStack> CurrentInventory => PocketManager.Instance.CurrentPocket.inventory;
@@ -104,7 +161,7 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		}
 
 		public bool IsTheSameOf(Item item) {
-			return item.IsTheSameOf(item);
+			return _item.IsTheSameOf(item);
 		}
 
 		public bool Add(Item item)
@@ -125,17 +182,12 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			return true;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="count"></param>
-		/// <returns>False if nothing has been removed</returns>
-		public bool Remove(Item item, int count = 1)
+		public int Remove(Item item, int count = 1)
 		{
 			if(!IsTheSameOf(item))
 			{
 				Debug.LogWarning("The item is different than the Stack's item");
-				return false;
+				return 0;
 			}
 
 			int oldCount = this.count;
@@ -145,14 +197,14 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				this.count = 0;
 			}
 
-			return oldCount != this.count ;
+			return oldCount - this.count ;
 		}
 	}
 
 	public enum ItemId 
 	{
 		Abstract = 0,
-		Map = 1,
+		Pocket = 1,
 		Mana = 2
 	}
 }

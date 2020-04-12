@@ -14,23 +14,24 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 		public List<InventoryStack> inventory;
 		public int id;
 		public int parentCount;
-		public GameObject gameObject;
+		public Level level;
 		public Pocket parent;
 		public List<Pocket> childs;
 
-		public Pocket(GameObject gameObject, int parentCount = 0, Pocket parent = null)
+		public Pocket(Level level, int parentCount = 0, Pocket parent = null)
 		{
 			this.inventory = new List<InventoryStack>();
 			this.id = _NextPocketId++;
 			this.parentCount = parentCount;
-			this.gameObject = gameObject;
+			this.level = level;
 			this.parent = parent;
 		}
 
 		public void Dispose()
 		{
+			Debug.Log("[Dispose] Pocket with id \""+id+"\" disposed");
 			isDestroyed = true;
-			UnityEngine.Object.Destroy(gameObject);
+			UnityEngine.Object.Destroy(level);
 		}
 
 		public void DisposeWithChilds(Pocket exceptionPocket = null)
@@ -40,17 +41,19 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 			{
 				lPocket = childs[i];
 				if (lPocket == exceptionPocket)
-				{
+					continue;
 
-				}
+				lPocket.DisposeWithChilds();
 			}
 
 			if (exceptionPocket != null)
 			{
 				exceptionPocket.parent = null;
 			}
+
+			Dispose();
 		}
 
-		public static implicit operator bool(Pocket pocket) => pocket.isDestroyed;
+		public static implicit operator bool(Pocket pocket) => pocket != null && !pocket.isDestroyed;
 	}
 }

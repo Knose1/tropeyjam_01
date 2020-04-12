@@ -17,6 +17,7 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element {
 		[SerializeField] public bool spaceAround = false;
 		[SerializeField] private HorizontalLayoutGroup innerLayoutGroup = null;
 
+		private int itemsInLayout = 0;
 		private RectTransform rectTransform;
 
 		private void OnEnable()
@@ -35,6 +36,7 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element {
 
 		private void Awake()
 		{
+			itemsInLayout = innerLayoutGroup.transform.childCount;
 			rectTransform = (RectTransform)transform;
 		}
 
@@ -57,16 +59,19 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element {
 			{
 				Destroy(innerLayoutGroup.transform.GetChild(i).gameObject);
 			}
+			itemsInLayout = 0;
 		}
 
-		public bool CanAddItem() => canContain > innerLayoutGroup.transform.childCount;
+		public bool CanAddItem() => canContain > itemsInLayout;
 
 		public void AddItem(Transform item)
 		{
 			if (!CanAddItem())
 			{
-				Debug.LogWarning($"[Inventory] {name} can't contain more than ${canContain} items");
+				Debug.LogWarning($"[Inventory] {name} can't contain more than {canContain} items");
+				return;
 			}
+			itemsInLayout += 1;
 			item.SetParent(innerLayoutGroup.transform);
 		}
 

@@ -8,10 +8,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Com.Github.Knose1.InfinitePocket.UI.Element {
+namespace Com.Github.Knose1.InfinitePocket.UI.Element
+{
 	public class UIInventoryElement : UIBehaviour, IEventSystemHandler//, IPointerEnterHandler, IPointerExitHandler, IMoveHandler
 	{
-		[SerializeField] Text stackCountText = null;
+		[SerializeField] protected Text stackCountText = null;
+		[SerializeField] protected RectTransform stackCountObject = null;
 
 		public void OnPointerEnter(PointerEventData eventData) => throw new System.NotImplementedException();
 		public void OnPointerExit(PointerEventData eventData) => throw new System.NotImplementedException();
@@ -24,10 +26,23 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element {
 		{
 			this.stack = stack;
 			if (!stack.Item.HasSpecificData) SetCount(stack.count);
+			else
+			{
+				stackCountObject.gameObject.SetActive(false);
+			}
 		}
 		protected void SetCount(int count)
 		{
 			stackCountText.text = count.ToString();
 		}
+	}
+
+	public abstract class ButtonInventoryElement : UIInventoryElement, IPointerClickHandler
+	{
+		public void OnPointerClick(PointerEventData eventData)
+		{
+			Debug.Log($"[Use] Clicked on {gameObject.name} of type {GetType().Name}");
+		}
+		public abstract void Click(PointerEventData eventData);
 	}
 }

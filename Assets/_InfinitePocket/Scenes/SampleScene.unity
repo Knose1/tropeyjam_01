@@ -356,6 +356,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18058ad514d34db488ad1982672341a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabItemPocket: {fileID: 11400000, guid: 30548c87d13f2e74fb001c61e7e0c398, type: 2}
+  backwardArrow: {fileID: 11400000, guid: b20b05b4dfa9d704191abd8eb0b68ca5, type: 2}
+  shops:
+  - {fileID: 11400000, guid: 71450f407d3c7df42bf439e2547c1351, type: 2}
+  - {fileID: 11400000, guid: 60cc6a3b58774f04e97802fb60e44d38, type: 2}
 --- !u!1 &350095286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,7 +1227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  headSpeed: 150
+  headSpeed: 3
   head: {fileID: 963194228}
   Horizontal: Horizontal
   Vertical: Vertical
@@ -1636,10 +1641,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1426121685645390499, guid: 1f176192e4eb06148902328da56bfb34,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 4300000, guid: 74374342a4835184784a973cec05a4df, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f176192e4eb06148902328da56bfb34, type: 3}
