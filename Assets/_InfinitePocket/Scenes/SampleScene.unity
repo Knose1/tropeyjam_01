@@ -347,8 +347,8 @@ MonoBehaviour:
   prefabItemPocket: {fileID: 11400000, guid: 30548c87d13f2e74fb001c61e7e0c398, type: 2}
   backwardArrow: {fileID: 11400000, guid: b20b05b4dfa9d704191abd8eb0b68ca5, type: 2}
   shops:
-  - {fileID: 11400000, guid: 71450f407d3c7df42bf439e2547c1351, type: 2}
-  - {fileID: 11400000, guid: 60cc6a3b58774f04e97802fb60e44d38, type: 2}
+  - {fileID: 11400000, guid: a9c532283d1959348b5113fd3349eb34, type: 2}
+  - {fileID: 11400000, guid: 3aa2fc08d21dba34080ff4b66fdd9780, type: 2}
 --- !u!1 &350095286
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,11 +873,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pocketGenerator: {fileID: 11400000, guid: 289ebc6400df9ee469b5cd745c28ccc5, type: 2}
-  _currentPocket:
-    id: 0
-    parentCount: 0
-    level: {fileID: 0}
-    childs: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -976,7 +971,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sharedProfile: {fileID: 11400000, guid: bd57191c44aae7b47b1450a104a82dc3, type: 2}
-  isGlobal: 0
+  isGlobal: 1
   blendDistance: 0
   weight: 1
   priority: 0

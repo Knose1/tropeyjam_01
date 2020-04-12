@@ -16,12 +16,18 @@ namespace Com.Github.Knose1.InfinitePocket.UI.Element
 			
 			int cost = shop.Cost;
 			Item monney = shop.Monney;
+
+			int quantityToGive = shop.QuantityToGive;
 			Item itemToGive = shop.ItemToGive;
 
 			if (InventoryManager.Instance.Count(monney) >= cost)
 			{
 				InventoryManager.Instance.RemoveItem(monney, cost, false);
-				InventoryManager.Instance.AddItem(itemToGive);
+
+				for (int i = 0; i < quantityToGive; i++)
+				{
+					InventoryManager.Instance.AddItem(itemToGive, i == quantityToGive - 1);
+				}
 			}
 		}
 	}
