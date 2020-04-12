@@ -10,11 +10,16 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 	[CreateAssetMenu(fileName=nameof(PocketGenerator), menuName = "InfinitePocket/"+nameof(PocketGenerator))]
 	public class PocketGenerator : ScriptableObject
 	{
-		public List<GameObject> blockPaterns = new List<GameObject>();
+		
+		[SerializeField] public List<Level> levels = new List<Level>();
+		private List<Level> seenLevels = new List<Level>();
+		private Level lastGenerated = null;
 
 		public GameObject Generate()
 		{
-			return null;
+			Level lToReturn = null;
+
+			return lastGenerated = lToReturn;
 		}
 	}
 }

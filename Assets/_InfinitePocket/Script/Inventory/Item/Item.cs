@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Com.Github.Knose1.InfinitePocket.UI.Element;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Com.Github.Knose1.InfinitePocket.Inventory
 {
-	public abstract class Item {
+	public abstract class Item : ScriptableObject {
 
-		private List<Item> _list = new List<Item>();
-		public List<Item> List => _list;
+		[SerializeField] protected string _name;
+		public string Name => _name;
+
+		[SerializeField, TextArea()] protected string _description;
+		public string Description => _description;
+
+		[SerializeField] protected UIInventoryElement _uiInventoryPrefab = null;
+		public UIInventoryElement UiInventoryPrefab => _uiInventoryPrefab;
 
 		public static event Action<Item> OnCollect;
-
-		private bool _isCollected = false;
-		public bool IsCollected
-		{
-			get => _isCollected;
-		}
 
 		private bool _dropable = false;
 		public bool Dropable
@@ -29,53 +30,20 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			get => _id; 
 			protected set => _id = value;
 		}
-		
+
 		private bool _hasSpecificData;
-
-		protected Item() 
-		{
-			AddToList();
-		}
-		protected void AddToList() => _list.Add(this);
-
 		public bool HasSpecificData
 		{
 			get => _hasSpecificData;
 			protected set => _hasSpecificData = value;
 		}
 
-		public GameObject gameObject 
-		{ 
-			get; 
-			set;
-		}
-
 		public void Collect() 
 		{
-			if (_isCollected)
-			{
-				Debug.LogWarning("The item you try to collect has already been collected");
-				return;
-			}
-			_isCollected = true;
+			Debug.Log("[Item] Collected "+GetType().Name);
 			OnCollect?.Invoke(this);
 		}
 
-		//Useless
-		/*
-		public void Drop()
-		{
-			if (!_dropable) return;
-
-			if (!_isCollected)
-			{
-				Debug.LogWarning("The item you try to collect has not been collected");
-				return;
-			}
-			_isCollected = false;
-			gameObject.SetActive(false);
-		}
-		*/
 		virtual public bool IsTheSameOf(Item item) => item._id == _id;
 	}
 }

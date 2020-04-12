@@ -4810,5 +4810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9362c8fed3dd94742a606b27cff16508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: acd7fa9db8d90cc488bc5bdff06cf790, type: 2}
   playerTag: Player
   _particleSystem: {fileID: 2141293124951354248}

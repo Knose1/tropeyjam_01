@@ -6,7 +6,7 @@ namespace Com.Github.Knose1.InfinitePocket.UI {
 	public class UIManager : MonoBehaviour {
 
 		[SerializeField] private KeyCode OpenInventory = KeyCode.I;
-		[SerializeField] private InventoryScreen inventoryScreen;
+		[SerializeField] private InventoryScreen inventoryScreen = null;
 
 		private void Update()
 		{

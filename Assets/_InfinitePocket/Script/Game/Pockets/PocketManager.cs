@@ -34,7 +34,7 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 		[SerializeField] private PocketGenerator pocketGenerator = null;
 
 
-		private void Start()
+		private void Awake()
 		{
 			CreateDeeperPocket();
 		}

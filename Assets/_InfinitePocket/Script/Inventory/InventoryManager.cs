@@ -1,4 +1,5 @@
 ﻿using Com.Github.Knose1.InfinitePocket.Game.Pockets;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 {
 	[AddComponentMenu("_InfinitePocket/Inventory/"+nameof(InventoryManager))]
 	public class InventoryManager : MonoBehaviour {
+
+		public static event Action OnInventoryUpdate;
 
 		private static InventoryManager _instance;
 		public static InventoryManager Instance
@@ -28,11 +31,6 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 			}
 		}
 
-		private void Start () 
-		{
-			OnEnable();
-		}
-
 		private void OnEnable()
 		{
 			Item.OnCollect += Item_OnCollect;
@@ -52,7 +50,14 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				stack = inventory[i];
 				if (!stack.IsTheSameOf(obj)) continue;
 				if (!stack.Add(obj)) continue;
+
+				OnInventoryUpdate?.Invoke();
+				return;
 			}
+
+			inventory.Add(new InventoryStack(obj));
+
+			OnInventoryUpdate?.Invoke();
 		}
 		public void RemoveItem(Item obj, int count=1)
 		{
@@ -64,14 +69,18 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				stack = inventory[i];
 				if (!stack.IsTheSameOf(obj)) continue;
 				if (!stack.Remove(obj, count)) continue;
+
+				OnInventoryUpdate?.Invoke();
+				return;
 			}
+
 		}
 
 		public List<InventoryStack> CurrentInventory => PocketManager.Instance.CurrentPocket.inventory;
 
 		private void OnDisable()
 		{
-			Item.OnCollect += Item_OnCollect;
+			Item.OnCollect -= Item_OnCollect;
 		}
 
 		private void OnDestroy()
@@ -80,17 +89,18 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		}
 	}
 
-	public struct InventoryStack
+	public class InventoryStack
 	{
 		public const int MAX_STACK = 64;
 		
 		public int count;
-		public readonly Item item;
+		private Item _item;
+		public Item Item => _item;
 
 		public InventoryStack(Item item)
 		{
-			this.count = 0;
-			this.item = item;
+			this.count = 1;
+			this._item = item;
 		}
 
 		public bool IsTheSameOf(Item item) {
@@ -105,7 +115,7 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				return false;
 			}
 
-			int lMaxStack = this.item.HasSpecificData ? 1 : MAX_STACK;
+			int lMaxStack = this.Item.HasSpecificData ? 1 : MAX_STACK;
 
 			if (count >= lMaxStack)
 			{
@@ -127,14 +137,15 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				Debug.LogWarning("The item is different than the Stack's item");
 				return false;
 			}
-			
+
+			int oldCount = this.count;
 			this.count -= count;
 
 			if (this.count < 0) {
 				this.count = 0;
-				return false;
 			}
-			return true;
+
+			return oldCount != this.count ;
 		}
 	}
 
