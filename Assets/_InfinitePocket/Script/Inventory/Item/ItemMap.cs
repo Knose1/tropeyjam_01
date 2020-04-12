@@ -16,6 +16,9 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 		public const int GENERATE_NEW = -1;
 		public int pocketId = GENERATE_NEW;
 
+		[SerializeField, TextArea()] protected string _descriptionIfGenerated;
+		public override string Description => CanStack ? base.Description : _descriptionIfGenerated;
+
 		public override ItemId Id => ItemId.Map;
 		public override bool CanStack => pocketId == GENERATE_NEW;
 	}

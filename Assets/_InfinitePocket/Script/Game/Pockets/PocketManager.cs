@@ -46,7 +46,7 @@ namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 			GameManager.Instance.SetLevel(CreateDeeperPocketAndSetAsCurrent().level);
 		}
 
-		[HideInInspector] private Pocket _currentPocket = null;
+		private Pocket _currentPocket = null;
 		public Pocket CurrentPocket => _currentPocket;
 
 

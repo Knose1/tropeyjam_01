@@ -55,9 +55,12 @@ namespace Com.Github.Knose1.InfinitePocket.Inventory
 				ItemMap pocketItem = Instantiate(prefabItemPocket);
 				pocketItem.pocketId = current.id;
 				old.inventory.Add(new InventoryStack(pocketItem));
-			}
 
-			AddItem(backwardArrow, false);
+				ItemParent parentItem = Instantiate(backwardArrow);
+				parentItem.pocketId = old.id;
+				AddItem(parentItem, false);
+			}
+			else AddItem(backwardArrow, false);
 
 			int maxIndex = shops.Count - 1;
 			for (int i = 0; i <= maxIndex; i++)

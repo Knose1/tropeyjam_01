@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Com.Github.Knose1.InfinitePocket.Game.Pockets
 {
-	[Serializable]
 	public class Pocket : IDisposable
 	{
 		private static int _NextPocketId = 0;

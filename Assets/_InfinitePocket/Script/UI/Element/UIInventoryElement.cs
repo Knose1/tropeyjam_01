@@ -10,15 +10,22 @@ using UnityEngine.UI;
 
 namespace Com.Github.Knose1.InfinitePocket.UI.Element
 {
-	public class UIInventoryElement : UIBehaviour, IEventSystemHandler//, IPointerEnterHandler, IPointerExitHandler, IMoveHandler
+	public class UIInventoryElement : UIBehaviour, IEventSystemHandler, IPointerEnterHandler, IPointerExitHandler
 	{
 		[SerializeField] protected Text stackCountText = null;
 		[SerializeField] protected RectTransform stackCountObject = null;
+		[SerializeField] protected InfoBox infoBox = null;
 
-		public void OnPointerEnter(PointerEventData eventData) => throw new System.NotImplementedException();
-		public void OnPointerExit(PointerEventData eventData) => throw new System.NotImplementedException();
-		public void OnMove(AxisEventData eventData) => throw new System.NotImplementedException();
-		
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			Debug.Log("[BUTTON] Pointer enter");
+			infoBox.gameObject.SetActive(true);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			Debug.Log("[BUTTON] Pointer exit");
+		}
 
 		protected InventoryStack stack;
 
